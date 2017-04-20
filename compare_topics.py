@@ -5,6 +5,7 @@ import time
 import os
 import signal
 import sys
+import re
 
 # Add shutdown hook for stoping process when finishing the monitoring
 
@@ -38,7 +39,7 @@ def get_offsets_from_topics(topics):
 		offsets[topic] = 0
 	for line in lines:
 		for topic in topics:
-			if topic in line:
+			if re.match("^{0} ".format(topic), line) is not None:
 				offsets[topic] = int(offsets[topic]) + int(line.split()[3])
 	return offsets
 
@@ -101,7 +102,4 @@ while True:
 		))
 	previous_offsets = current_offsets
 	print("-----------------------------------------------------------------------")
-	time.sleep(10)
-
-
-
+	time.sleep(args.interval)
