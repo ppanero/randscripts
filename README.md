@@ -1,7 +1,7 @@
 # Randscripts
 Random scripts/small programs needed for some task
 
-## topics_compare.py 
+## compare_topics.py 
 
 Enables to check the progress of a kafka topic using ConsumerGroupCommand. This is needed because GetOffsetShell does not support SSL brokers.
 
