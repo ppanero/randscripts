@@ -14,7 +14,7 @@ def signal_handler(signal, frame):
     for consumer in consumers:
     	print("Killing consumer with PID {0}".format(consumer.pid))
     	consumer.kill()
-
+    FNULL.close()
     sys.exit(0)
 
 # Function to obtain the current sum of log end offsets per topic
