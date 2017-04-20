@@ -1,4 +1,4 @@
-# randscripts
+# Randscripts
 Random scripts/small programs needed for some task
 
 ## topics_compare.py 
