@@ -51,7 +51,7 @@ for topic in args.topics:
 		],
 		stderr=FNULL)
 	dtts = datetime.fromtimestamp(json.loads(consumed_value)['timestamp']/1000)
-	ts = dtts.strftime("%Y-%m-%dT%H:%M:%SZ")
+	ts = dtts.strftime("%Y-%m-%dT%H:%M:%S")
 	print("|\t {0} \t|\t{1}\t|".format(topic, ts))
 	
 print("---------------------------------------------------------")
