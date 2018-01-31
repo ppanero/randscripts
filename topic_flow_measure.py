@@ -7,7 +7,6 @@ from datetime import datetime
 def signal_handler(signal, frame):
 	print("Killing consumer with PID {0}".format(consumer.pid))
 	consumer.kill()
-	FNULL.close()
 	sys.exit(0)
 
 
@@ -25,9 +24,9 @@ def get_offsets_from_topics(topic):
 	args.group,
 	"--describe"
 	],
-	stderr=FNULL)
-
-	lines = consumer_group_offsets.split('\n')
+	stderr=-1)
+	
+        lines = consumer_group_offsets.split('\n')
 	offsets = {}
 	for line in lines:
 		if re.match("^{0} ".format(topic), line) is not None:
@@ -52,7 +51,6 @@ parser.add_argument('--topic',  metavar='topic',
 
 args = parser.parse_args()
 
-FNULL = open(os.devnull, 'w') # To avoid the stdout of the process to be displayed
 print("Opening consumer for topic {0}".format(args.topic))
 consumer = subprocess.Popen(
 		[
@@ -63,8 +61,10 @@ consumer = subprocess.Popen(
 		"{0}/config/{1}".format(args.kafka_home, args.command_config),
 		"--topic",
 		args.topic,
+		"--group",
+		args.group
 		],
-		stdout=FNULL, stderr=subprocess.STDOUT)
+		stdout=-1, stderr=subprocess.STDOUT)
 
 print("Starting flow measurements for topic {0}".format(args.topic))
 
@@ -94,5 +94,4 @@ print("\n")
 print("{0} processed in {1} seconds".format(offsets_diff, time_elapsed.seconds))
 print("Average {0} messages/second".format(offsets_diff/time_elapsed.seconds))
 consumer.kill()
-FNULL.close()
 sys.exit(0)
